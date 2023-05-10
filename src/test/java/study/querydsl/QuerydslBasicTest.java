@@ -1,5 +1,6 @@
 package study.querydsl;
 
+import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -91,5 +92,28 @@ public class QuerydslBasicTest {
                 .fetch();
 
         assertThat(result1.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void resultFetch() {
+        List<Member> fetch = queryFactory // List
+                .selectFrom(member)
+                .fetch();
+
+        Member fetchOne = queryFactory // 단 건
+                .selectFrom(member)
+                .fetchOne();
+
+        Member fetchFirst = queryFactory // 처음 한 건 조회
+                .selectFrom(member)
+                .fetchFirst();
+
+        QueryResults<Member> results = queryFactory // 페이징에서 사용
+                .selectFrom(member)
+                .fetchResults();
+
+        long count = queryFactory // count 쿼리로 변경
+                .selectFrom(member)
+                .fetchCount();
     }
 }
