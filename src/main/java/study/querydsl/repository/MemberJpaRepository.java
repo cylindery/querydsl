@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
+import static org.springframework.util.StringUtils.hasText;
 import static study.querydsl.entity.QMember.*;
 import static study.querydsl.entity.QTeam.*;
 
@@ -50,12 +51,14 @@ public class MemberJpaRepository {
                 .fetch();
     }
 
+    // Builder 사용
+    // 회원명, 팀명, 나이
     public List<MemberTeamDto> searchByBuilder(MemberSearchCondition condition) {
         BooleanBuilder builder = new BooleanBuilder();
-        if (StringUtils.hasText(condition.getUsername())) {
+        if (hasText(condition.getUsername())) {
             builder.and(member.username.eq(condition.getUsername()));
         }
-        if (StringUtils.hasText(condition.getTeamName())) {
+        if (hasText(condition.getTeamName())) {
             builder.and(team.name.eq(condition.getTeamName()));
         }
         if (condition.getAgeGoe() != null) {
